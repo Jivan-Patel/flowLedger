@@ -4,6 +4,22 @@
 
 ---
 
+## 🎨 Design & Prototype
+
+### 🖌️ Figma Design
+- **Main Design File:**  
+  https://www.figma.com/design/Ho30ZcdHoE8SvLJacxifQa/Untitled?node-id=1003-2&t=vEP967IerTZBUgjO-1
+
+### 🌞 Light Theme Prototype
+- **Interactive Prototype (Light Mode):**  
+  https://www.figma.com/proto/Ho30ZcdHoE8SvLJacxifQa/Untitled?node-id=1003-1139&p=f&viewport=343%2C255%2C0.06&t=tZCmTT4ynHq1XqVq-0&scaling=min-zoom&content-scaling=fixed&starting-point-node-id=1003%3A1139&show-proto-sidebar=1
+
+### 🌙 Dark Theme Prototype
+- **Interactive Prototype (Dark Mode):**  
+  https://www.figma.com/proto/Ho30ZcdHoE8SvLJacxifQa/Untitled?node-id=1003-2&p=f&viewport=269%2C261%2C0.06&t=tZCmTT4ynHq1XqVq-0&scaling=min-zoom&content-scaling=fixed&starting-point-node-id=1017%3A2&show-proto-sidebar=1
+
+---
+
 ## 📌 Description
 
 FlowLedger is a web-based SaaS application that helps small business owners and freelancers manage their finances without the complexity of a full ERP system. It provides a clean, intuitive interface for creating invoices, tracking payment statuses, monitoring cash flow, and managing recurring transactions — all in one place.
