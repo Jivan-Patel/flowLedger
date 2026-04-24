@@ -4,6 +4,7 @@ import dotenv from 'dotenv'
 import morgan from 'morgan'
 import { connectDB } from './config/db.js'
 import authRoutes from './routes/authRoutes.js'
+import invoiceRoutes from './routes/invoiceRoutes.js'
 
 dotenv.config()
 
@@ -19,6 +20,7 @@ app.get('/api/health', (_req, res) => {
 })
 
 app.use('/api/auth', authRoutes)
+app.use('/api/invoices', invoiceRoutes)
 
 const startServer = async () => {
 	try {
