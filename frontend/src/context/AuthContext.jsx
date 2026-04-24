@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
-import { loginRequest } from '../services/authService'
+import { loginRequest, signupRequest } from '../services/authService'
 
 const AuthContext = createContext(null)
 const SESSION_KEY = 'flowledger_session'
@@ -35,12 +35,27 @@ export function AuthProvider({ children }) {
 		}
 	}
 
+	const signup = async (name, email, password) => {
+		try {
+			const response = await signupRequest(name, email, password)
+			if (response.success && response.user) {
+				setUser(response.user)
+				localStorage.setItem(SESSION_KEY, JSON.stringify(response.user))
+				return { success: true }
+			}
+
+			return { success: false, message: response.message || 'Signup failed' }
+		} catch (error) {
+			return { success: false, message: error.message || 'Unable to signup. Please try again.' }
+		}
+	}
+
 	const logout = () => {
 		setUser(null)
 		localStorage.removeItem(SESSION_KEY)
 	}
 
-	const value = useMemo(() => ({ user, loading, login, logout }), [user, loading])
+	const value = useMemo(() => ({ user, loading, login, signup, logout }), [user, loading])
 
 	return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
