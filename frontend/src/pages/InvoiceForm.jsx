@@ -11,7 +11,7 @@ export default function InvoiceForm() {
 	const isEdit = !!id
 
 	const [form, setForm] = useState({
-		client: { name: '', email: '' },
+		client: { name: '', email: '', phoneNumber: '' },
 		lineItems: [{ ...emptyLine }],
 		taxRate: 18,
 		dueDate: '',
@@ -103,6 +103,14 @@ export default function InvoiceForm() {
 									className="w-full bg-surface-highest border-none rounded-lg px-4 py-3.5 text-sm focus:ring-1 focus:ring-primary/40"
 									placeholder="billing@company.com" type="email"
 									value={form.client.email} onChange={e => setForm(f => ({ ...f, client: { ...f.client, email: e.target.value } }))}
+								/>
+							</div>
+							<div className="space-y-2">
+								<label className="text-[10px] uppercase tracking-widest font-bold text-on-surface-variant">Client Phone</label>
+								<input
+									className="w-full bg-surface-highest border-none rounded-lg px-4 py-3.5 text-sm focus:ring-1 focus:ring-primary/40"
+									placeholder="+1234567890" type="tel"
+									value={form.client.phoneNumber} onChange={e => setForm(f => ({ ...f, client: { ...f.client, phoneNumber: e.target.value } }))}
 								/>
 							</div>
 						</div>
