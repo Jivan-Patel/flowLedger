@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, PieChart, Pie, Cell } from 'recharts'
 import { invoiceService } from '../services/invoiceService'
 import { cashflowService } from '../services/cashflowService'
+import CashFlowInsights from '../components/CashFlowInsights'
 import { formatCurrency, formatDate } from '../utils/format'
 
 const statusColors = {
@@ -93,6 +94,9 @@ export default function Dashboard() {
 					</p>
 				</div>
 			</div>
+
+			{/* Smart Insights */}
+			<CashFlowInsights />
 
 			{/* Charts Row */}
 			<div className="grid grid-cols-1 xl:grid-cols-3 gap-6">

@@ -7,6 +7,7 @@ import authRoutes from './routes/authRoutes.js'
 import invoiceRoutes from './routes/invoiceRoutes.js'
 import cashflowRoutes from './routes/cashflowRoutes.js'
 import recurringRoutes from './routes/recurringRoutes.js'
+import insightsRoutes from './routes/insightsRoutes.js'
 
 dotenv.config()
 
@@ -25,6 +26,7 @@ app.use('/api/auth', authRoutes)
 app.use('/api/invoices', invoiceRoutes)
 app.use('/api/cashflow', cashflowRoutes)
 app.use('/api/recurring', recurringRoutes)
+app.use('/api/insights', insightsRoutes)
 
 const startServer = async () => {
 	try {
