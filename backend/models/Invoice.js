@@ -10,6 +10,7 @@ const lineItemSchema = new mongoose.Schema({
 const invoiceSchema = new mongoose.Schema({
 	invoiceNumber: { type: String, required: true, unique: true },
 	client: {
+		clientId: { type: mongoose.Schema.Types.ObjectId, ref: 'Client' },
 		name: { type: String, required: true },
 		email: { type: String, default: '' },
 		phoneNumber: { type: String, default: '' }
