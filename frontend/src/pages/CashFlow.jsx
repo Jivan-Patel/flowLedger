@@ -16,7 +16,7 @@ export default function CashFlow() {
 		try {
 			const [sumData, monData, txnData] = await Promise.all([
 				cashflowService.getSummary(),
-				cashflowService.getMonthlyBreakdown(),
+				cashflowService.getMonthly(),
 				cashflowService.getTransactions()
 			])
 			setSummary(sumData)
