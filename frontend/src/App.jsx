@@ -8,6 +8,7 @@ import InvoiceDetail from './pages/InvoiceDetail'
 import PaymentTracking from './pages/PaymentTracking'
 import CashFlow from './pages/CashFlow'
 import Recurring from './pages/Recurring'
+import Clients from './pages/Clients'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
 
@@ -60,6 +61,7 @@ export default function App() {
 				<Route path="payments" element={<PaymentTracking />} />
 				<Route path="cash-flow" element={<CashFlow />} />
 				<Route path="recurring" element={<Recurring />} />
+				<Route path="clients" element={<Clients />} />
 			</Route>
 			<Route path="*" element={<Navigate to="/" replace />} />
 		</Routes>

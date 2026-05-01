@@ -7,6 +7,7 @@ const navItems = [
   { to: '/payments', icon: 'payments', label: 'Payments' },
   { to: '/cash-flow', icon: 'trending_up', label: 'Cash Flow' },
   { to: '/recurring', icon: 'history_toggle_off', label: 'Recurring' },
+  { to: '/clients', icon: 'groups', label: 'Clients' },
 ]
 
 export default function Sidebar() {
