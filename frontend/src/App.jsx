@@ -5,6 +5,7 @@ import Dashboard from './pages/Dashboard'
 import Invoices from './pages/Invoices'
 import InvoiceForm from './pages/InvoiceForm'
 import InvoiceDetail from './pages/InvoiceDetail'
+import PaymentTracking from './pages/PaymentTracking'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
 
@@ -54,6 +55,7 @@ export default function App() {
 				<Route path="invoices/new" element={<InvoiceForm />} />
 				<Route path="invoices/:id" element={<InvoiceDetail />} />
 				<Route path="invoices/:id/edit" element={<InvoiceForm />} />
+				<Route path="payments" element={<PaymentTracking />} />
 			</Route>
 			<Route path="*" element={<Navigate to="/" replace />} />
 		</Routes>
