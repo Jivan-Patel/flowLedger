@@ -11,7 +11,8 @@ const invoiceSchema = new mongoose.Schema({
 	invoiceNumber: { type: String, required: true, unique: true },
 	client: {
 		name: { type: String, required: true },
-		email: { type: String, default: '' }
+		email: { type: String, default: '' },
+		phoneNumber: { type: String, default: '' }
 	},
 	lineItems: { type: [lineItemSchema], required: true },
 	subtotal: { type: Number, default: 0 },

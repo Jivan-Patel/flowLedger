@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import { invoiceService } from '../services/invoiceService'
 import { formatCurrency, formatDate } from '../utils/format'
+import { generateWhatsAppLink } from '../utils/whatsapp'
 
 const statusConfig = {
   paid: { bg: 'bg-green-500/10', text: 'text-green-400', border: 'border-green-500/20', icon: 'check_circle' },
@@ -43,6 +44,16 @@ export default function InvoiceDetail() {
     }
   }
 
+  const handleWhatsApp = () => {
+    if (!invoice.client.phoneNumber) {
+      alert("Client phone number is missing. Please edit the invoice to add it.")
+      return
+    }
+    const text = `Hi ${invoice.client.name}, this is a reminder that your invoice of ₹${invoice.total}, due on ${formatDate(invoice.dueDate)}, is pending. Kindly complete the payment. Thank you.`
+    const url = generateWhatsAppLink(invoice.client.phoneNumber, text)
+    window.open(url, '_blank')
+  }
+
   return (
     <div className="max-w-5xl mx-auto space-y-8 animate-fade-in">
       <div className="flex items-center justify-between flex-wrap gap-4">
@@ -56,6 +67,11 @@ export default function InvoiceDetail() {
           </div>
         </div>
         <div className="flex items-center gap-3">
+          {(invoice.status === 'pending' || invoice.status === 'overdue') && (
+            <button onClick={handleWhatsApp} className="flex items-center gap-2 px-5 py-2.5 bg-green-500 text-white font-bold text-sm rounded-lg hover:bg-green-600 transition-all shadow-lg shadow-green-500/20">
+              <span className="material-symbols-outlined text-lg">chat</span> Send Reminder
+            </button>
+          )}
           {invoice.status !== 'paid' && (
             <button onClick={handleMarkPaid} className="flex items-center gap-2 px-5 py-2.5 bg-green-500/10 text-green-400 font-bold text-sm rounded-lg border border-green-500/20 hover:bg-green-500/20 transition-all">
               <span className="material-symbols-outlined text-lg">check_circle</span> Mark as Paid
@@ -90,7 +106,8 @@ export default function InvoiceDetail() {
           <div className="bg-surface-low rounded-xl p-8 border border-outline-variant/10">
             <h3 className="text-sm font-bold uppercase tracking-widest text-on-surface-variant/50 mb-4">Bill To</h3>
             <p className="text-lg font-bold text-on-surface">{invoice.client.name}</p>
-            <p className="text-sm text-on-surface-variant">{invoice.client.email}</p>
+            {invoice.client.email && <p className="text-sm text-on-surface-variant">{invoice.client.email}</p>}
+            {invoice.client.phoneNumber && <p className="text-sm text-on-surface-variant mt-1">{invoice.client.phoneNumber}</p>}
           </div>
           {/* Line Items */}
           <div className="bg-surface-low rounded-xl overflow-hidden border border-outline-variant/10">
