@@ -76,3 +76,48 @@ export const getMonthlyBreakdown = async (req, res) => {
     res.status(500).json({ message: error.message })
   }
 }
+
+export const getTransactions = async (req, res) => {
+  try {
+    const transactions = await Transaction.find({ userId: req.userId }).sort({ date: -1 }).limit(50)
+    res.status(200).json(transactions)
+  } catch (error) {
+    res.status(500).json({ message: error.message })
+  }
+}
+
+export const createTransaction = async (req, res) => {
+  try {
+    const transaction = new Transaction({ ...req.body, userId: req.userId })
+    await transaction.save()
+    res.status(201).json(transaction)
+  } catch (error) {
+    res.status(400).json({ message: error.message })
+  }
+}
+
+export const deleteTransaction = async (req, res) => {
+  try {
+    const transaction = await Transaction.findOneAndDelete({ _id: req.params.id, userId: req.userId })
+    if (!transaction) return res.status(404).json({ message: 'Transaction not found' })
+    res.status(200).json({ message: 'Transaction deleted successfully' })
+  } catch (error) {
+    res.status(500).json({ message: error.message })
+  }
+}
+
+export const updateThreshold = async (req, res) => {
+  try {
+    const { threshold } = req.body
+    let settings = await Settings.findOne({ userId: req.userId })
+    if (!settings) {
+      settings = new Settings({ userId: req.userId, cashFlowThreshold: threshold })
+    } else {
+      settings.cashFlowThreshold = threshold
+    }
+    await settings.save()
+    res.status(200).json(settings)
+  } catch (error) {
+    res.status(400).json({ message: error.message })
+  }
+}
