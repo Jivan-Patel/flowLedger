@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { invoiceService } from '../services/invoiceService'
+import { clientService } from '../services/clientService'
 import { formatCurrency } from '../utils/format'
 
 const emptyLine = { description: '', quantity: 1, unitPrice: 0, total: 0 }
@@ -11,13 +12,29 @@ export default function InvoiceForm() {
 	const isEdit = !!id
 
 	const [form, setForm] = useState({
-		client: { name: '', email: '', phoneNumber: '' },
+		client: { clientId: '', name: '', email: '', phoneNumber: '' },
 		lineItems: [{ ...emptyLine }],
 		taxRate: 18,
 		dueDate: '',
 		issueDate: new Date().toISOString().split('T')[0],
 		notes: '',
 	})
+
+	const [clients, setClients] = useState([])
+	const [showClientModal, setShowClientModal] = useState(false)
+	const [newClient, setNewClient] = useState({ name: '', email: '', phone: '' })
+
+	useEffect(() => {
+		const fetchClients = async () => {
+			try {
+				const data = await clientService.getClients()
+				setClients(data)
+			} catch (err) {
+				console.error('Failed to fetch clients', err)
+			}
+		}
+		fetchClients()
+	}, [])
 
 	useEffect(() => {
 		if (isEdit) {
@@ -84,10 +101,37 @@ export default function InvoiceForm() {
 				{/* Left - Form */}
 				<div className="col-span-12 xl:col-span-8 space-y-6">
 					{/* Client Details */}
-					<div className="bg-surface-low rounded-xl p-8 border border-outline-variant/10">
-						<h3 className="text-lg font-bold mb-6 flex items-center gap-2">
-							<span className="material-symbols-outlined text-primary">person</span> Client Details
-						</h3>
+					<div className="bg-surface-low rounded-xl p-8 border border-outline-variant/10 relative">
+						<div className="flex justify-between items-center mb-6">
+							<h3 className="text-lg font-bold flex items-center gap-2">
+								<span className="material-symbols-outlined text-primary">person</span> Client Details
+							</h3>
+							<button type="button" onClick={() => setShowClientModal(true)} className="text-xs font-bold text-primary hover:text-primary-fixed-dim transition-colors flex items-center gap-1">
+								<span className="material-symbols-outlined text-sm">add</span> Add New Client
+							</button>
+						</div>
+
+						<div className="mb-6 space-y-2">
+							<label className="text-[10px] uppercase tracking-widest font-bold text-on-surface-variant">Select Existing Client</label>
+							<select
+								className="w-full bg-surface-highest border-none rounded-lg px-4 py-3.5 text-sm focus:ring-1 focus:ring-primary/40 appearance-none"
+								value={form.client.clientId || ''}
+								onChange={e => {
+									const selected = clients.find(c => c._id === e.target.value)
+									if (selected) {
+										setForm(f => ({ ...f, client: { clientId: selected._id, name: selected.name, email: selected.email, phoneNumber: selected.phone } }))
+									} else {
+										setForm(f => ({ ...f, client: { clientId: '', name: '', email: '', phoneNumber: '' } }))
+									}
+								}}
+							>
+								<option value="">-- Select Client (Optional) --</option>
+								{clients.map(c => (
+									<option key={c._id} value={c._id}>{c.name} {c.phone ? `(${c.phone})` : ''}</option>
+								))}
+							</select>
+						</div>
+
 						<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 							<div className="space-y-2">
 								<label className="text-[10px] uppercase tracking-widest font-bold text-on-surface-variant">Client Name *</label>
@@ -237,6 +281,55 @@ export default function InvoiceForm() {
 					</div>
 				</div>
 			</form>
+
+			{/* Add Client Modal */}
+			{showClientModal && (
+				<div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/80 backdrop-blur-sm animate-fade-in">
+					<div className="bg-surface-high border border-outline-variant/10 rounded-2xl w-full max-w-md shadow-2xl overflow-hidden animate-slide-up">
+						<div className="p-6 border-b border-outline-variant/10 flex justify-between items-center">
+							<h3 className="text-lg font-bold">Add New Client</h3>
+							<button onClick={() => setShowClientModal(false)} className="text-on-surface-variant hover:text-on-surface transition-colors">
+								<span className="material-symbols-outlined">close</span>
+							</button>
+						</div>
+						<div className="p-6 space-y-4">
+							<div className="space-y-2">
+								<label className="text-[10px] uppercase tracking-widest font-bold text-on-surface-variant">Name *</label>
+								<input required className="w-full bg-surface-highest border-none rounded-lg px-4 py-3 text-sm" value={newClient.name} onChange={e => setNewClient({ ...newClient, name: e.target.value })} />
+							</div>
+							<div className="space-y-2">
+								<label className="text-[10px] uppercase tracking-widest font-bold text-on-surface-variant">Phone *</label>
+								<input required className="w-full bg-surface-highest border-none rounded-lg px-4 py-3 text-sm" value={newClient.phone} onChange={e => setNewClient({ ...newClient, phone: e.target.value })} />
+							</div>
+							<div className="space-y-2">
+								<label className="text-[10px] uppercase tracking-widest font-bold text-on-surface-variant">Email</label>
+								<input type="email" className="w-full bg-surface-highest border-none rounded-lg px-4 py-3 text-sm" value={newClient.email} onChange={e => setNewClient({ ...newClient, email: e.target.value })} />
+							</div>
+							<div className="pt-4 flex gap-3">
+								<button onClick={() => setShowClientModal(false)} className="flex-1 py-3 bg-surface-lowest rounded-lg font-semibold text-sm">Cancel</button>
+								<button 
+									onClick={async () => {
+										if (!newClient.name || !newClient.phone) return alert('Name and phone are required')
+										try {
+											const created = await clientService.createClient(newClient)
+											setClients(prev => [created, ...prev])
+											setForm(f => ({ ...f, client: { clientId: created._id, name: created.name, email: created.email, phoneNumber: created.phone } }))
+											setShowClientModal(false)
+											setNewClient({ name: '', email: '', phone: '' })
+										} catch (err) {
+											console.error(err)
+											alert('Failed to add client')
+										}
+									}}
+									className="flex-1 py-3 bg-primary text-on-primary rounded-lg font-bold text-sm"
+								>
+									Save Client
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			)}
 		</div>
 	)
 }
