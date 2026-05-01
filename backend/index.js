@@ -6,6 +6,7 @@ import { connectDB } from './config/db.js'
 import authRoutes from './routes/authRoutes.js'
 import invoiceRoutes from './routes/invoiceRoutes.js'
 import cashflowRoutes from './routes/cashflowRoutes.js'
+import recurringRoutes from './routes/recurringRoutes.js'
 
 dotenv.config()
 
@@ -23,6 +24,7 @@ app.get('/api/health', (_req, res) => {
 app.use('/api/auth', authRoutes)
 app.use('/api/invoices', invoiceRoutes)
 app.use('/api/cashflow', cashflowRoutes)
+app.use('/api/recurring', recurringRoutes)
 
 const startServer = async () => {
 	try {
