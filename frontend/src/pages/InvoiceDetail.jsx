@@ -5,6 +5,7 @@ import { formatCurrency, formatDate } from '../utils/format'
 import { generateWhatsAppLink } from '../utils/whatsapp'
 import html2pdf from 'html2pdf.js'
 import InvoicePDF from '../components/InvoicePDF'
+import SEO from '../components/SEO'
 
 const statusConfig = {
   paid: { bg: 'bg-green-500/10', text: 'text-green-400', border: 'border-green-500/20', icon: 'check_circle' },
@@ -80,6 +81,10 @@ export default function InvoiceDetail() {
 
   return (
     <div className="max-w-5xl mx-auto space-y-8 animate-fade-in">
+      <SEO
+        title={`Invoice ${invoice.invoiceNumber}`}
+        description={`Invoice ${invoice.invoiceNumber} for ${invoice.client.name} — Total: ₹${invoice.total}. Status: ${invoice.status}.`}
+      />
       <div className="flex items-center justify-between flex-wrap gap-4">
         <div className="flex items-center gap-4">
           <button onClick={() => navigate('/invoices')} className="w-10 h-10 rounded-lg bg-surface-high flex items-center justify-center hover:bg-surface-bright transition-colors">

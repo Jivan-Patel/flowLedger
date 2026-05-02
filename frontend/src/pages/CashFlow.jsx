@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { cashflowService } from '../services/cashflowService'
 import { formatCurrency, formatDate } from '../utils/format'
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Legend, ReferenceLine } from 'recharts'
+import SEO from '../components/SEO'
 
 export default function CashFlow() {
 	const [summary, setSummary] = useState(null)
@@ -61,6 +62,10 @@ export default function CashFlow() {
 
 	return (
 		<div className="space-y-8 animate-fade-in pb-12">
+			<SEO
+				title="Cash Flow"
+				description="Monitor your cash flow health. Track income, expenses, monthly trends, and set balance alert thresholds."
+			/>
 			{/* Header */}
 			<div className="flex justify-between items-end">
 				<div>
