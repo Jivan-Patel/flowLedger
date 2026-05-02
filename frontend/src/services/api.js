@@ -1,7 +1,10 @@
 import axios from 'axios'
 
+const PROD_API_URL = 'https://flowledger-backend-2yxh.onrender.com'
+const BASE_URL = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? PROD_API_URL : 'http://localhost:5000')
+
 const api = axios.create({
-  baseURL: 'http://localhost:5000/api',
+  baseURL: `${BASE_URL}/api`,
   headers: {
     'Content-Type': 'application/json'
   }
