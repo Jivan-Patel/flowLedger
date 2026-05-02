@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
+import SEO from '../components/SEO'
 
 export default function Login() {
   const { login } = useAuth()
@@ -22,6 +23,10 @@ export default function Login() {
 
   return (
     <div className="min-h-screen flex items-center justify-center relative overflow-hidden bg-bg">
+      <SEO
+        title="Login"
+        description="Sign in to your FlowLedger account to manage invoices, track payments, and monitor cash flow."
+      />
       <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary-container/20 rounded-full blur-[100px] pointer-events-none" />
       <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-secondary-container/20 rounded-full blur-[100px] pointer-events-none" />
       

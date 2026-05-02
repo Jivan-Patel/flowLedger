@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { clientService } from '../services/clientService'
+import SEO from '../components/SEO'
 
 export default function Clients() {
 	const [clients, setClients] = useState([])
@@ -33,6 +34,10 @@ export default function Clients() {
 
 	return (
 		<div className="space-y-8 animate-fade-in">
+			<SEO
+				title="Clients"
+				description="Manage your client directory. View contact details, search clients, and keep your business relationships organized."
+			/>
 			{/* Header */}
 			<div className="flex justify-between items-end">
 				<div>

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { recurringService } from '../services/recurringService'
 import { formatCurrency, formatDate } from '../utils/format'
+import SEO from '../components/SEO'
 
 export default function Recurring() {
 	const [items, setItems] = useState([])
@@ -61,6 +62,10 @@ export default function Recurring() {
 
 	return (
 		<div className="space-y-8 animate-fade-in pb-12">
+			<SEO
+				title="Recurring Transactions"
+				description="Manage automated recurring transactions. Set up scheduled income and expenses with daily, weekly, monthly, or yearly frequency."
+			/>
 			{/* Header */}
 			<div className="flex justify-between items-end">
 				<div>
