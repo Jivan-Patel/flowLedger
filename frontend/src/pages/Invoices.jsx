@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import { toast } from 'sonner'
 import { invoiceService } from '../services/invoiceService'
 import { formatCurrency, formatDate } from '../utils/format'
 import SEO from '../components/SEO'
@@ -21,6 +22,7 @@ export default function Invoices() {
 			setInvoices(data)
 		} catch (err) {
 			console.error(err)
+			toast.error('Failed to load invoices')
 		}
 	}
 
@@ -32,12 +34,25 @@ export default function Invoices() {
 
 	const handleDelete = async (id) => {
 		if (confirm('Delete invoice?')) {
-			await invoiceService.deleteInvoice(id)
-			refresh()
+			try {
+				await invoiceService.deleteInvoice(id)
+				toast.success('Invoice deleted')
+				refresh()
+			} catch (err) {
+				console.error(err)
+				toast.error('Failed to delete invoice')
+			}
 		}
 	}
 	const handleMarkPaid = async (id) => {
-		await invoiceService.markPaid(id)
+		try {
+			await invoiceService.markPaid(id)
+			toast.success('Invoice marked as paid')
+			refresh()
+		} catch (err) {
+			console.error(err)
+			toast.error('Failed to mark invoice as paid')
+		}oiceService.markPaid(id)
 		refresh()
 	}
 

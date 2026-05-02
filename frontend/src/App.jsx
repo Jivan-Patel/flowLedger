@@ -1,4 +1,5 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
+import { Toaster } from 'sonner'
 import { useAuth } from './context/AuthContext'
 import Layout from './components/Layout/Layout'
 import Dashboard from './pages/Dashboard'
@@ -29,7 +30,9 @@ function PublicRoute({ children }) {
 
 export default function App() {
 	return (
-		<Routes>
+		<>
+			<Toaster position="top-right" richColors />
+			<Routes>
 			<Route
 				path="/login"
 				element={(
@@ -62,9 +65,12 @@ export default function App() {
 				<Route path="payments" element={<PaymentTracking />} />
 				<Route path="cash-flow" element={<CashFlow />} />
 				<Route path="recurring" element={<Recurring />} />
-				<Route path="clients" element={<Clients />} />			<Route path="settings" element={<Settings />} />			</Route>
+			<Route path="clients" element={<Clients />} />
+			<Route path="settings" element={<Settings />} />
+			</Route>
 			<Route path="*" element={<Navigate to="/" replace />} />
-		</Routes>
+			</Routes>
+		</>
 	)
 }
 

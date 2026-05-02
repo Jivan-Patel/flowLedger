@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { toast } from 'sonner'
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, PieChart, Pie, Cell } from 'recharts'
 import { invoiceService } from '../services/invoiceService'
 import { cashflowService } from '../services/cashflowService'
@@ -34,6 +35,7 @@ export default function Dashboard() {
 				setMonthly(monthBrk)
 			} catch (error) {
 				console.error('Failed to fetch dashboard data:', error)
+				toast.error('Failed to load dashboard data')
 			}
 		}
 		fetchData()

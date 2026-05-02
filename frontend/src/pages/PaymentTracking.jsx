@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import { toast } from 'sonner'
 import { invoiceService } from '../services/invoiceService'
 import { formatCurrency, formatDate } from '../utils/format'
 import SEO from '../components/SEO'
@@ -28,6 +29,7 @@ export default function PaymentTracking() {
 			setSummary(summaryData)
 		} catch (err) {
 			console.error(err)
+			toast.error('Failed to load payment data')
 		}
 	}
 
@@ -39,8 +41,14 @@ export default function PaymentTracking() {
 
 	const handleMarkPaid = async (id) => {
 		if (confirm('Mark this invoice as paid?')) {
-			await invoiceService.markPaid(id)
-			refresh()
+			try {
+				await invoiceService.markPaid(id)
+				toast.success('Invoice marked as paid')
+				refresh()
+			} catch (err) {
+				console.error(err)
+				toast.error('Failed to mark invoice as paid')
+			}
 		}
 	}
 

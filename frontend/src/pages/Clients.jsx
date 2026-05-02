@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { toast } from 'sonner'
 import { clientService } from '../services/clientService'
 import SEO from '../components/SEO'
 
@@ -12,6 +13,7 @@ export default function Clients() {
 			setClients(data)
 		} catch (err) {
 			console.error(err)
+			toast.error('Failed to load clients')
 		}
 	}
 
@@ -23,9 +25,11 @@ export default function Clients() {
 		if (confirm('Delete this client?')) {
 			try {
 				await clientService.deleteClient(id)
+				toast.success('Client deleted')
 				fetchClients()
 			} catch (err) {
 				console.error(err)
+				toast.error('Failed to delete client')
 			}
 		}
 	}
