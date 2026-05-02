@@ -8,15 +8,15 @@
 
 ### 🖌️ Figma Design
 - **Main Design File:**  
-  https://www.figma.com/design/Ho30ZcdHoE8SvLJacxifQa/Untitled?node-id=1003-2&t=vEP967IerTZBUgjO-1
+  [Figma Link](https://www.figma.com/design/Ho30ZcdHoE8SvLJacxifQa/Untitled?node-id=1003-2&t=vEP967IerTZBUgjO-1)
 
 ### 🌞 Light Theme Prototype
 - **Interactive Prototype (Light Mode):**  
-  https://www.figma.com/proto/Ho30ZcdHoE8SvLJacxifQa/Untitled?node-id=1003-1139&p=f&viewport=343%2C255%2C0.06&t=tZCmTT4ynHq1XqVq-0&scaling=min-zoom&content-scaling=fixed&starting-point-node-id=1003%3A1139&show-proto-sidebar=1
+  [Figma Prototype Light](https://www.figma.com/proto/Ho30ZcdHoE8SvLJacxifQa/Untitled?node-id=1003-1139&p=f&viewport=343%2C255%2C0.06&t=tZCmTT4ynHq1XqVq-0&scaling=min-zoom&content-scaling=fixed&starting-point-node-id=1003%3A1139&show-proto-sidebar=1)
 
 ### 🌙 Dark Theme Prototype
 - **Interactive Prototype (Dark Mode):**  
-  https://www.figma.com/proto/Ho30ZcdHoE8SvLJacxifQa/Untitled?node-id=1003-2&p=f&viewport=269%2C261%2C0.06&t=tZCmTT4ynHq1XqVq-0&scaling=min-zoom&content-scaling=fixed&starting-point-node-id=1017%3A2&show-proto-sidebar=1
+  [Figma Prototype Dark](https://www.figma.com/proto/Ho30ZcdHoE8SvLJacxifQa/Untitled?node-id=1003-2&p=f&viewport=269%2C261%2C0.06&t=tZCmTT4ynHq1XqVq-0&scaling=min-zoom&content-scaling=fixed&starting-point-node-id=1017%3A2&show-proto-sidebar=1)
 
 ---
 
@@ -28,13 +28,14 @@ FlowLedger is a web-based SaaS application that helps small business owners and 
 
 ## 🧩 Problem Statement
 
-Micro and small businesses often rely on spreadsheets or paper records to manage invoices and cash flow. This approach is error-prone, hard to scale, and offers no real-time visibility into financial health. Existing tools like QuickBooks or Zoho are either too expensive or too complex for businesses with simple needs.
+Micro and small businesses often rely on spreadsheets or paper records to manage invoices and cash flow. This approach is error-prone, hard to scale, and offers no real-time visibility into financial health.
 
 **FlowLedger solves this by offering:**
-- A fast, no-fuss invoicing system
+- A fast, no-fuss invoicing system with PDF export
 - Real-time payment status tracking
-- Cash flow monitoring with smart alerts
+- Cash flow monitoring with threshold-based visual alerts
 - Automated recurring transaction handling
+- Client management and insights
 
 ---
 
@@ -43,9 +44,12 @@ Micro and small businesses often rely on spreadsheets or paper records to manage
 | Feature | Description |
 |---|---|
 | 📄 Invoice Management | Create, edit, send, and delete invoices with line items |
+| 🖨️ PDF Export | Export professional invoices as PDF for printing or sharing |
 | 💳 Payment Tracking | Track invoices as Paid, Pending, or Overdue |
+| 📈 Financial Insights | Get detailed breakdowns of revenue and expenses |
 | 📊 Cash Flow Dashboard | Visual balance overview with threshold-based alerts |
 | 🔁 Recurring Transactions | Auto-generate fixed expenses/subscriptions on a schedule |
+| 📱 WhatsApp Share | Directly share invoice details via WhatsApp |
 
 ---
 
@@ -53,12 +57,12 @@ Micro and small businesses often rely on spreadsheets or paper records to manage
 
 | Layer | Technology |
 |---|---|
-| Frontend | React.js, React Router, Axios, Chart.js / Recharts |
+| Frontend | React.js, React Router, Axios, Recharts, React Helmet (SEO) |
 | Backend | Node.js, Express.js |
 | Database | MongoDB with Mongoose ODM |
 | Auth | JWT (JSON Web Tokens) |
-| Styling | Tailwind CSS |
-| Dev Tools | Nodemon, dotenv, ESLint |
+| Styling | Vanilla CSS, Tailwind CSS |
+| PDF Gen | html2pdf.js |
 
 ---
 
@@ -69,53 +73,24 @@ flowledger/
 ├── frontend/                         # React Frontend
 │   ├── public/
 │   └── src/
-│       ├── assets/                 # Icons, images
 │       ├── components/             # Reusable UI components
-│       │   ├── InvoiceCard.jsx
-│       │   ├── StatusBadge.jsx
-│       │   ├── AlertBanner.jsx
-│       │   └── RecurringItem.jsx
-│       ├── pages/                  # Route-level pages
-│       │   ├── Dashboard.jsx
-│       │   ├── Invoices.jsx
-│       │   ├── InvoiceForm.jsx
-│       │   ├── PaymentTracking.jsx
-│       │   ├── CashFlow.jsx
-│       │   └── Recurring.jsx
-│       ├── services/               # Axios API call wrappers
-│       │   ├── invoiceService.js
-│       │   ├── paymentService.js
-│       │   └── recurringService.js
-│       ├── context/                # React Context for global state
-│       │   └── AuthContext.jsx
+│       ├── pages/                  # Route-level pages (Dashboard, Invoices, CashFlow, etc.)
+│       ├── services/               # API call wrappers (api.js, invoiceService.js, etc.)
+│       ├── context/                # Global state management
 │       ├── App.jsx
 │       └── main.jsx
 │
 ├── backend/                         # Express Backend
-│   ├── config/
-│   │   └── db.js                   # MongoDB connection
-│   ├── controllers/
-│   │   ├── invoiceController.js
-│   │   ├── paymentController.js
-│   │   └── recurringController.js
-│   ├── models/
-│   │   ├── Invoice.js
-│   │   ├── Transaction.js
-│   │   └── RecurringTransaction.js
-│   ├── routes/
-│   │   ├── invoiceRoutes.js
-│   │   ├── paymentRoutes.js
-│   │   └── recurringRoutes.js
-│   ├── middleware/
-│   │   └── authMiddleware.js
-│   ├── utils/
-│   │   └── dateHelpers.js
+│   ├── config/                     # Database configuration
+│   ├── controllers/                # Business logic for routes
+│   ├── models/                     # Mongoose schemas
+│   ├── routes/                     # API endpoint definitions
+│   ├── middleware/                 # Auth and error handling
 │   └── index.js                    # Entry point
 │
-├── .env.example
 ├── .gitignore
-├── package.json                    # Root (optional monorepo scripts)
-└── README.md
+├── README.md
+└── package.json
 ```
 
 ---
@@ -125,45 +100,46 @@ flowledger/
 ### Prerequisites
 - Node.js >= 18.x
 - MongoDB (local or Atlas URI)
-- npm or yarn
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/your-username/flowledger.git
-cd flowledger
+git clone https://github.com/Jivan-Patel/flowLedger.git
+cd flowLedger/flowLedger
 ```
 
 ### 2. Configure Environment Variables
 
-Create a `.env` file inside the `server/` directory:
+Create a `.env` file inside the `backend/` directory:
 ```env
 PORT=5000
 MONGO_URI=mongodb://localhost:27017/flowledger
-JWT_SECRET=your_jwt_secret_key
-NODE_ENV=development
+JWT_SECRET=your_secret_key
+```
+
+Create a `.env` file inside the `frontend/` directory:
+```env
+VITE_API_URL=http://localhost:5000
 ```
 
 ### 3. Install Dependencies
 
 ```bash
 # Install backend dependencies
-cd server
+cd backend
 npm install
 
 # Install frontend dependencies
-cd ../client
+cd ../frontend
 npm install
 ```
 
 ### 4. Run the Application
 
 ```bash
-# From the root or server directory — run backend
-cd server
+# Run backend (from backend directory)
 npm run dev
 
-# In a separate terminal — run frontend
-cd client
+# Run frontend (from frontend directory)
 npm run dev
 ```
 
@@ -173,20 +149,18 @@ npm run dev
 
 ---
 
-## 📁 API Base URL
+## 📁 Deployment
 
-```
-http://localhost:5000/api
-```
+- **Frontend:** Deployed on Vercel at [flow-ledger-alpha.vercel.app](https://flow-ledger-alpha.vercel.app)
+- **Backend:** Deployed on Render
 
-All protected routes require a Bearer token in the Authorization header:
-```
-Authorization: Bearer <your_jwt_token>
-```
+The frontend is configured to automatically point to the production backend when deployed.
+
+---
 
 ## 👤 Author
 
-**Your Name**
+**Jivan Patel**
 - GitHub: [@Jivan-Patel](https://github.com/Jivan-Patel)
 
 ---
