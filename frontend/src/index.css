@@ -192,6 +192,41 @@ input:focus, select:focus, textarea:focus {
 	color: #dc2626 !important;
 }
 
+/* Sidebar Navigation Links - Dark Mode */
+.sidebar-link {
+	color: var(--color-on-surface-variant);
+	transition: all 300ms;
+}
+
+.sidebar-link-active {
+	color: var(--color-primary);
+	background: linear-gradient(to right, rgba(37, 99, 235, 0.1), transparent);
+	border-right: 2px solid var(--color-primary);
+}
+
+.sidebar-link-inactive {
+	opacity: 0.7;
+}
+
+.sidebar-link-inactive:hover {
+	background-color: var(--color-surface-high);
+	color: var(--color-primary);
+}
+
+/* Sidebar Logo */
+.sidebar-logo {
+	color: var(--color-primary);
+}
+
+/* Sidebar Logout Button */
+.sidebar-logout {
+	color: var(--color-error);
+}
+
+.sidebar-logout:hover {
+	background-color: rgba(220, 38, 38, 0.1);
+}
+
 /* Animations */
 @keyframes fadeIn {
 	from { opacity: 0; transform: translateY(8px); }

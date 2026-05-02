@@ -13,10 +13,8 @@ const navItems = [
 export default function Sidebar() {
   const { logout } = useAuth()
   const linkClass = ({ isActive }) =>
-    `flex items-center gap-3 py-3 px-4 rounded-lg transition-all duration-300 ${
-      isActive
-        ? 'text-[#b4c5ff] bg-gradient-to-r from-[#2563eb1a] to-transparent border-r-2 border-[#2563eb]'
-        : 'text-[#c3c6d7] opacity-70 hover:bg-[#222a3d] hover:text-[#b4c5ff]'
+    `flex items-center gap-3 py-3 px-4 rounded-lg transition-all duration-300 sidebar-link ${
+      isActive ? 'sidebar-link-active' : 'sidebar-link-inactive'
     }`
 
   return (
@@ -28,7 +26,7 @@ export default function Sidebar() {
             <span className="material-symbols-outlined text-white" style={{ fontVariationSettings: "'FILL' 1" }}>account_balance_wallet</span>
           </div>
           <div>
-            <h1 className="text-xl font-bold tracking-tighter text-[#b4c5ff] transition-colors duration-300">FlowLedger</h1>
+            <h1 className="text-xl font-bold tracking-tighter text-primary transition-colors duration-300 sidebar-logo">FlowLedger</h1>
             <p className="text-[10px] uppercase tracking-widest text-on-surface-variant opacity-60 transition-colors duration-300">Financial Dashboard</p>
           </div>
         </div>
@@ -50,7 +48,7 @@ export default function Sidebar() {
           <span className="material-symbols-outlined">settings</span>
           <span className="font-medium text-sm tracking-wide">Settings</span>
         </NavLink>
-        <button onClick={logout} className="w-full flex items-center gap-3 py-3 px-4 rounded-lg text-error-container hover:bg-error-container/10 transition-all duration-300">
+        <button onClick={logout} className="w-full flex items-center gap-3 py-3 px-4 rounded-lg text-error hover:bg-error/10 transition-all duration-300 sidebar-logout">
           <span className="material-symbols-outlined">logout</span>
           <span className="font-medium text-sm tracking-wide">Sign out</span>
         </button>
