@@ -47,11 +47,21 @@ export default function Dashboard() {
 
 	const recentInvoices = invoices.slice(0, 5)
 
+	const dashboardSchema = {
+		"@context": "https://schema.org",
+		"@type": "WebApplication",
+		"name": "FlowLedger",
+		"applicationCategory": "BusinessApplication",
+		"operatingSystem": "All",
+		"description": "FlowLedger Dashboard — View your financial overview, current balance, revenue flow, and recent invoices at a glance."
+	};
+
 	return (
 		<div className="space-y-8 animate-fade-in">
 			<SEO
 				title="Dashboard"
 				description="FlowLedger Dashboard — View your financial overview, current balance, revenue flow, and recent invoices at a glance."
+				schemaData={dashboardSchema}
 			/>
 			{/* Header */}
 			<div className="flex justify-between items-end">

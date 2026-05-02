@@ -78,12 +78,29 @@ export default function InvoiceDetail() {
     }
     html2pdf().set(opt).from(element).save()
   }
+	const invoiceSchema = {
+		"@context": "https://schema.org",
+		"@type": "Invoice",
+		"accountId": invoice.invoiceNumber,
+		"customer": {
+			"@type": "Organization",
+			"name": invoice.client.name
+		},
+		"paymentStatus": invoice.status === 'paid' ? "PaymentComplete" : invoice.status === 'pending' ? "PaymentDue" : "PaymentPastDue",
+		"paymentDueDate": invoice.dueDate,
+		"totalPaymentDue": {
+			"@type": "PriceSpecification",
+			"price": invoice.total,
+			"priceCurrency": "INR"
+		}
+	};
 
   return (
     <div className="max-w-5xl mx-auto space-y-8 animate-fade-in">
       <SEO
         title={`Invoice ${invoice.invoiceNumber}`}
         description={`Invoice ${invoice.invoiceNumber} for ${invoice.client.name} — Total: ₹${invoice.total}. Status: ${invoice.status}.`}
+		schemaData={invoiceSchema}
       />
       <div className="flex items-center justify-between flex-wrap gap-4">
         <div className="flex items-center gap-4">
