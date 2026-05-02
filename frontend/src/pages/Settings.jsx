@@ -67,12 +67,6 @@ export default function Settings() {
 			setLoading(false)
 		}
 	}
-		} catch (error) {
-			setMessage({ type: 'error', text: error.response?.data?.message || 'Failed to update profile' })
-		} finally {
-			setLoading(false)
-		}
-	}
 
 	const handlePasswordSubmit = async (e) => {
 		e.preventDefault()
