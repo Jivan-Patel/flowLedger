@@ -1,6 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
+import { toast } from 'sonner'
 import { useAuth } from '../context/AuthContext'
 import SEO from '../components/SEO'
 
@@ -26,9 +27,10 @@ export default function Login() {
     onSubmit: async (values) => {
       const res = await login(values.email, values.password)
       if (res.success) {
+        toast.success('Welcome back!')
         navigate('/')
       } else {
-        formik.setFieldError('submit', res.message)
+        toast.error(res.message)
       }
     },
   })
@@ -50,12 +52,6 @@ export default function Login() {
           </h1>
           <p className="text-on-surface-variant">Sign in to your account</p>
         </div>
-
-        {formik.errors.submit && (
-          <div className="bg-error-container text-on-error-container p-3 rounded-lg mb-4 text-sm">
-            {formik.errors.submit}
-          </div>
-        )}
 
         <form onSubmit={formik.handleSubmit} className="space-y-4">
           <div>

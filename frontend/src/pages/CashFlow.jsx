@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { toast } from 'sonner'
 import { cashflowService } from '../services/cashflowService'
 import { formatCurrency, formatDate } from '../utils/format'
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Legend, ReferenceLine } from 'recharts'
@@ -25,6 +26,7 @@ export default function CashFlow() {
 			setTransactions(txnData)
 		} catch (error) {
 			console.error("Failed to load cash flow data", error)
+			toast.error('Failed to load cash flow data')
 		}
 	}
 
@@ -32,26 +34,44 @@ export default function CashFlow() {
 
 	const handleUpdateThreshold = async (e) => {
 		e.preventDefault()
-		await cashflowService.updateThreshold(Number(newThreshold))
-		setShowThresholdModal(false)
-		loadData()
+		try {
+			await cashflowService.updateThreshold(Number(newThreshold))
+			toast.success('Balance threshold updated')
+			setShowThresholdModal(false)
+			loadData()
+		} catch (error) {
+			console.error(error)
+			toast.error('Failed to update threshold')
+		}
 	}
 
 	const handleAddExpense = async (e) => {
 		e.preventDefault()
-		await cashflowService.createTransaction({
-			...newExpense,
-			amount: Number(newExpense.amount)
-		})
-		setShowExpenseModal(false)
-		setNewExpense({ description: '', amount: '', type: 'expense', category: 'General' })
-		loadData()
+		try {
+			await cashflowService.createTransaction({
+				...newExpense,
+				amount: Number(newExpense.amount)
+			})
+			toast.success('Transaction added')
+			setShowExpenseModal(false)
+			setNewExpense({ description: '', amount: '', type: 'expense', category: 'General' })
+			loadData()
+		} catch (error) {
+			console.error(error)
+			toast.error('Failed to add transaction')
+		}
 	}
 
 	const handleDeleteTransaction = async (id) => {
 		if (confirm('Delete this transaction?')) {
-			await cashflowService.deleteTransaction(id)
-			loadData()
+			try {
+				await cashflowService.deleteTransaction(id)
+				toast.success('Transaction deleted')
+				loadData()
+			} catch (error) {
+				console.error(error)
+				toast.error('Failed to delete transaction')
+			}
 		}
 	}
 

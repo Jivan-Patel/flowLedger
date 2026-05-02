@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { toast } from 'sonner'
 import { recurringService } from '../services/recurringService'
 import { formatCurrency, formatDate } from '../utils/format'
 import SEO from '../components/SEO'
@@ -18,6 +19,7 @@ export default function Recurring() {
 			setItems(data)
 		} catch (error) {
 			console.error("Failed to load recurring data", error)
+			toast.error('Failed to load recurring transactions')
 		}
 	}
 
@@ -26,13 +28,20 @@ export default function Recurring() {
 	const handleSave = async (e) => {
 		e.preventDefault()
 		const payload = { ...formData, amount: Number(formData.amount) }
-		if (editingItem) {
-			await recurringService.updateRecurring(editingItem._id, payload)
-		} else {
-			await recurringService.createRecurring(payload)
+		try {
+			if (editingItem) {
+				await recurringService.updateRecurring(editingItem._id, payload)
+				toast.success('Transaction updated')
+			} else {
+				await recurringService.createRecurring(payload)
+				toast.success('Transaction created')
+			}
+			setShowModal(false)
+			loadData()
+		} catch (error) {
+			console.error(error)
+			toast.error('Failed to save transaction')
 		}
-		setShowModal(false)
-		loadData()
 	}
 
 	const handleEdit = (item) => {
@@ -50,8 +59,14 @@ export default function Recurring() {
 
 	const handleDelete = async (id) => {
 		if (confirm('Deactivate this recurring transaction?')) {
-			await recurringService.deleteRecurring(id)
-			loadData()
+			try {
+				await recurringService.deleteRecurring(id)
+				toast.success('Transaction deactivated')
+				loadData()
+			} catch (error) {
+				console.error(error)
+				toast.error('Failed to delete transaction')
+			}
 		}
 	}
 

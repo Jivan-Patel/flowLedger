@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { toast } from 'sonner'
 import { useAuth } from '../context/AuthContext'
 import { useTheme } from '../context/ThemeContext'
 import SEO from '../components/SEO'
@@ -9,7 +10,6 @@ export default function Settings() {
 	const { theme, toggleTheme } = useTheme()
 	const [activeTab, setActiveTab] = useState('profile')
 	const [loading, setLoading] = useState(false)
-	const [message, setMessage] = useState({ type: '', text: '' })
 	
 	// Profile form state
 	const [profileForm, setProfileForm] = useState({
@@ -41,13 +41,12 @@ export default function Settings() {
 		const newThreshold = parseFloat(e.target.value) || 0
 		setBalanceThreshold(newThreshold)
 		setLoading(true)
-		setMessage({ type: '', text: '' })
 
 		try {
 			// TODO: Implement backend endpoint: PUT /api/auth/settings
-			setMessage({ type: 'info', text: 'Settings saved locally - backend synchronization coming soon' })
+			toast.success('Balance threshold updated locally')
 		} catch (error) {
-			setMessage({ type: 'error', text: 'Failed to update settings' })
+			toast.error('Failed to update settings')
 		} finally {
 			setLoading(false)
 		}
@@ -60,10 +59,9 @@ export default function Settings() {
 
 		try {
 			// TODO: Implement backend endpoint: PUT /api/auth/profile
-			setMessage({ type: 'info', text: 'Profile update feature coming soon - backend endpoint not yet implemented' })
+			toast.info('Profile update feature coming soon - backend endpoint not yet implemented')
 		} catch (error) {
-			setMessage({ type: 'error', text: 'Failed to update profile' })
-		} finally {
+			toast.error('Failed to update profile')
 			setLoading(false)
 		}
 	}
@@ -74,23 +72,23 @@ export default function Settings() {
 		setMessage({ type: '', text: '' })
 
 		if (passwordForm.newPassword !== passwordForm.confirmPassword) {
-			setMessage({ type: 'error', text: 'New passwords do not match' })
+			toast.error('New passwords do not match')
 			setLoading(false)
 			return
 		}
 
 		if (passwordForm.newPassword.length < 6) {
-			setMessage({ type: 'error', text: 'Password must be at least 6 characters' })
+			toast.error('Password must be at least 6 characters')
 			setLoading(false)
 			return
 		}
 
 		try {
 			// TODO: Implement backend endpoint: PUT /api/auth/password
-			setMessage({ type: 'info', text: 'Password change feature coming soon - backend endpoint not yet implemented' })
+			toast.info('Password change feature coming soon - backend endpoint not yet implemented')
 			setPasswordForm({ currentPassword: '', newPassword: '', confirmPassword: '' })
 		} catch (error) {
-			setMessage({ type: 'error', text: 'Failed to change password' })
+			toast.error('Failed to change password')
 		} finally {
 			setLoading(false)
 		}
@@ -114,17 +112,6 @@ export default function Settings() {
 				<p className="text-[11px] uppercase tracking-widest text-primary font-semibold mb-1">Account</p>
 				<h2 className="text-3xl font-bold tracking-tight">Settings</h2>
 			</div>
-
-			{/* Message Alert */}
-			{message.text && (
-				<div className={`p-4 rounded-lg text-sm font-medium ${
-					message.type === 'success' 
-						? 'bg-green-500/10 text-green-400 border border-green-500/20' 
-						: 'bg-error-container/20 text-error border border-error/20'
-				}`}>
-					{message.text}
-				</div>
-			)}
 
 			{/* Tabs */}
 			<div className="flex gap-2 border-b border-outline-variant/20">

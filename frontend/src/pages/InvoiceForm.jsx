@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
+import { toast } from 'sonner'
 import { invoiceService } from '../services/invoiceService'
 import { clientService } from '../services/clientService'
 import { formatCurrency } from '../utils/format'
@@ -55,9 +56,10 @@ export default function InvoiceForm() {
 				formik.setFieldValue('client', { clientId: created._id, name: created.name, email: created.email, phoneNumber: created.phone })
 				setShowClientModal(false)
 				clientFormik.resetForm()
+				toast.success('Client added successfully')
 			} catch (err) {
 				console.error(err)
-				clientFormik.setFieldError('submit', 'Failed to add client')
+				toast.error('Failed to add client')
 			} finally {
 				setLoading(false)
 			}
@@ -90,10 +92,11 @@ export default function InvoiceForm() {
 			try {
 				if (isEdit) await invoiceService.updateInvoice(id, data)
 				else await invoiceService.createInvoice(data)
+				toast.success(isEdit ? 'Invoice updated successfully' : 'Invoice created successfully')
 				navigate('/invoices')
 			} catch (err) {
 				console.error(err)
-				formik.setFieldError('submit', 'Failed to save invoice')
+				toast.error('Failed to save invoice')
 			} finally {
 				setLoading(false)
 			}

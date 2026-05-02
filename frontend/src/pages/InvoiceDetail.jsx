@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
+import { toast } from 'sonner'
 import { invoiceService } from '../services/invoiceService'
 import { formatCurrency, formatDate } from '../utils/format'
 import { generateWhatsAppLink } from '../utils/whatsapp'
@@ -36,8 +37,10 @@ export default function InvoiceDetail() {
     try {
       const updated = await invoiceService.markPaid(id)
       setInvoice(updated)
+      toast.success('Invoice marked as paid')
     } catch (err) {
       console.error(err)
+      toast.error('Failed to mark invoice as paid')
     }
   }
   const handleDelete = async () => {
@@ -47,7 +50,7 @@ export default function InvoiceDetail() {
     }
   }
 
-  const handleWhatsApp = () => {
+  constoast.errordleWhatsApp = () => {
     if (!invoice.client.phoneNumber) {
       alert("Client phone number is missing. Please edit the invoice to add it.")
       return
