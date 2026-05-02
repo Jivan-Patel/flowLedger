@@ -171,7 +171,7 @@ export default function InvoiceForm() {
 				</div>
 			)}
 
-			<form onSubmit={formik.handleSubmit} className="grid grid-cols-12 gap-8">
+			<form onSubmit={formik.handleSubmit} className="grid grid-cols-12 gap-8" noValidate>
 				{/* Left - Form */}
 				<div className="col-span-12 xl:col-span-8 space-y-6">
 					{/* Client Details */}
@@ -186,9 +186,11 @@ export default function InvoiceForm() {
 						</div>
 
 						<div className="mb-6 space-y-2">
-							<label className="text-[10px] uppercase tracking-widest font-bold text-on-surface-variant">Select Existing Client</label>
+							<label htmlFor="client-select" className="text-[10px] uppercase tracking-widest font-bold text-on-surface-variant">Select Existing Client</label>
 							<select
-								className="w-full bg-surface-highest border-none rounded-lg px-4 py-3.5 text-sm focus:ring-1 focus:ring-primary/40 appearance-none"
+								id="client-select"
+								aria-label="Select existing client"
+								className="w-full bg-surface-highest border-none rounded-lg px-4 py-3.5 text-sm focus:ring-1 focus:ring-primary/40 appearance-none focus:outline-none"
 								value={formik.values.client.clientId || ''}
 								onChange={e => {
 									const selected = clients.find(c => c._id === e.target.value)
@@ -208,16 +210,20 @@ export default function InvoiceForm() {
 
 						<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 							<div className="space-y-2">
-								<label className="text-[10px] uppercase tracking-widest font-bold text-on-surface-variant">Client Name *</label>
+								<label htmlFor="client-name" className="text-[10px] uppercase tracking-widest font-bold text-on-surface-variant">Client Name <span aria-label="required">*</span></label>
 								<input
+									id="client-name"
+									aria-required="true"
+									aria-invalid={formik.touched.client?.name && formik.errors.client?.name ? 'true' : 'false'}
+									aria-describedby={formik.touched.client?.name && formik.errors.client?.name ? 'client-name-error' : undefined}
 									{...formik.getFieldProps('client.name')}
-									className={`w-full bg-surface-highest border rounded-lg px-4 py-3.5 text-sm focus:ring-1 focus:ring-primary/40 ${
+									className={`w-full bg-surface-highest border rounded-lg px-4 py-3.5 text-sm focus:ring-1 focus:ring-primary/40 focus:outline-none ${
 										formik.touched.client?.name && formik.errors.client?.name ? 'border-error' : 'border-none'
 									}`}
 									placeholder="Business Name"
 								/>
 								{formik.touched.client?.name && formik.errors.client?.name && (
-									<p className="text-error text-xs">{formik.errors.client.name}</p>
+									<p id="client-name-error" className="text-error text-xs" role="alert" aria-live="polite">{formik.errors.client.name}</p>
 								)}
 							</div>
 							<div className="space-y-2">

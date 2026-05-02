@@ -114,10 +114,13 @@ export default function Settings() {
 			</div>
 
 			{/* Tabs */}
-			<div className="flex gap-2 border-b border-outline-variant/20">
+			<div className="flex gap-2 border-b border-outline-variant/20" role="tablist">
 				<button
+					role="tab"
+					aria-selected={activeTab === 'profile'}
+					aria-controls="profile-panel"
 					onClick={() => setActiveTab('profile')}
-					className={`px-4 py-3 text-sm font-medium transition-colors border-b-2 ${
+					className={`px-4 py-3 text-sm font-medium transition-colors border-b-2 focus:outline-none focus:ring-2 focus:ring-primary focus:-ring-offset-2 ${
 						activeTab === 'profile'
 							? 'border-primary text-primary'
 							: 'border-transparent text-on-surface-variant hover:text-on-surface'
@@ -126,8 +129,11 @@ export default function Settings() {
 					Profile
 				</button>
 				<button
+					role="tab"
+					aria-selected={activeTab === 'security'}
+					aria-controls="security-panel"
 					onClick={() => setActiveTab('security')}
-					className={`px-4 py-3 text-sm font-medium transition-colors border-b-2 ${
+					className={`px-4 py-3 text-sm font-medium transition-colors border-b-2 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 ${
 						activeTab === 'security'
 							? 'border-primary text-primary'
 							: 'border-transparent text-on-surface-variant hover:text-on-surface'
@@ -136,8 +142,11 @@ export default function Settings() {
 					Security
 				</button>
 				<button
+					role="tab"
+					aria-selected={activeTab === 'preferences'}
+					aria-controls="preferences-panel"
 					onClick={() => setActiveTab('preferences')}
-					className={`px-4 py-3 text-sm font-medium transition-colors border-b-2 ${
+					className={`px-4 py-3 text-sm font-medium transition-colors border-b-2 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 ${
 						activeTab === 'preferences'
 							? 'border-primary text-primary'
 							: 'border-transparent text-on-surface-variant hover:text-on-surface'
@@ -149,11 +158,11 @@ export default function Settings() {
 
 			{/* Profile Tab */}
 			{activeTab === 'profile' && (
-				<div className="max-w-2xl">
+				<div id="profile-panel" role="tabpanel" className="max-w-2xl">
 					<div className="bg-surface-low rounded-xl border border-outline-variant/10 p-6 space-y-6">
 						<div>
 							<h3 className="text-lg font-bold text-on-surface mb-4">Profile Information</h3>
-							<form onSubmit={handleProfileSubmit} className="space-y-4">
+							<form onSubmit={handleProfileSubmit} className="space-y-4" noValidate>
 								<div>
 									<label className="block text-sm font-medium text-on-surface-variant mb-2">
 										Full Name
@@ -197,55 +206,64 @@ export default function Settings() {
 
 			{/* Security Tab */}
 			{activeTab === 'security' && (
-				<div className="max-w-2xl space-y-6">
+				<div id="security-panel" role="tabpanel" className="max-w-2xl space-y-6">
 					{/* Change Password */}
 					<div className="bg-surface-low rounded-xl border border-outline-variant/10 p-6 space-y-6">
 						<div>
 							<h3 className="text-lg font-bold text-on-surface mb-4">Change Password</h3>
-							<form onSubmit={handlePasswordSubmit} className="space-y-4">
+							<form onSubmit={handlePasswordSubmit} className="space-y-4" noValidate>
 								<div>
-									<label className="block text-sm font-medium text-on-surface-variant mb-2">
+									<label htmlFor="current-password" className="block text-sm font-medium text-on-surface-variant mb-2">
 										Current Password
 									</label>
 									<input
+										id="current-password"
 										type="password"
 										name="currentPassword"
+										aria-label="Current password"
 										value={passwordForm.currentPassword}
 										onChange={handlePasswordChange}
-										className="w-full bg-surface-container border border-outline-variant rounded-lg px-4 py-2 text-on-surface focus:ring-1 focus:ring-primary/40 transition-colors"
+										className="w-full bg-surface-container border border-outline-variant rounded-lg px-4 py-2 text-on-surface focus:ring-1 focus:ring-primary/40 focus:outline-none transition-colors"
 										placeholder="Enter current password"
 										required
 									/>
 								</div>
 
 								<div>
-									<label className="block text-sm font-medium text-on-surface-variant mb-2">
-										New Password
+									<label htmlFor="new-password" className="block text-sm font-medium text-on-surface-variant mb-2">
+										New Password <span aria-label="required">*</span>
 									</label>
 									<input
+										id="new-password"
 										type="password"
 										name="newPassword"
+										aria-label="New password"
+										aria-required="true"
+										aria-describedby="password-hint"
 										value={passwordForm.newPassword}
 										onChange={handlePasswordChange}
-										className="w-full bg-surface-container border border-outline-variant rounded-lg px-4 py-2 text-on-surface focus:ring-1 focus:ring-primary/40 transition-colors"
+										className="w-full bg-surface-container border border-outline-variant rounded-lg px-4 py-2 text-on-surface focus:ring-1 focus:ring-primary/40 focus:outline-none transition-colors"
 										placeholder="Enter new password"
 										required
 									/>
-									<p className="text-xs text-on-surface-variant/60 mt-1">
+									<p id="password-hint" className="text-xs text-on-surface-variant/60 mt-1">
 										Must be at least 6 characters long
 									</p>
 								</div>
 
 								<div>
-									<label className="block text-sm font-medium text-on-surface-variant mb-2">
-										Confirm New Password
+									<label htmlFor="confirm-password" className="block text-sm font-medium text-on-surface-variant mb-2">
+										Confirm New Password <span aria-label="required">*</span>
 									</label>
 									<input
+										id="confirm-password"
 										type="password"
 										name="confirmPassword"
+										aria-label="Confirm new password"
+										aria-required="true"
 										value={passwordForm.confirmPassword}
 										onChange={handlePasswordChange}
-										className="w-full bg-surface-container border border-outline-variant rounded-lg px-4 py-2 text-on-surface focus:ring-1 focus:ring-primary/40 transition-colors"
+										className="w-full bg-surface-container border border-outline-variant rounded-lg px-4 py-2 text-on-surface focus:ring-1 focus:ring-primary/40 focus:outline-none transition-colors"
 										placeholder="Confirm new password"
 										required
 									/>
@@ -254,7 +272,8 @@ export default function Settings() {
 								<button
 									type="submit"
 									disabled={loading}
-									className="w-full bg-primary-container text-on-primary-container font-bold py-2.5 rounded-lg hover:opacity-90 active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+									aria-busy={loading}
+									className="w-full bg-primary-container text-on-primary-container font-bold py-2.5 rounded-lg hover:opacity-90 active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
 								>
 									{loading ? 'Updating...' : 'Update Password'}
 								</button>
@@ -295,7 +314,8 @@ export default function Settings() {
 								</div>
 								<button
 									onClick={toggleTheme}
-									className="flex items-center gap-2 px-4 py-2 bg-primary-container text-on-primary-container rounded-lg font-medium text-sm hover:opacity-90 transition-opacity"
+									aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+									className="flex items-center gap-2 px-4 py-2 bg-primary-container text-on-primary-container rounded-lg font-medium text-sm hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-opacity"
 								>
 									{theme === 'light' ? (
 										<>
@@ -317,20 +337,23 @@ export default function Settings() {
 							<h3 className="text-lg font-bold text-on-surface mb-4">Alert Settings</h3>
 							<div className="space-y-3">
 								<div>
-									<label className="block text-sm font-medium text-on-surface-variant mb-2">
+									<label htmlFor="balance-threshold" className="block text-sm font-medium text-on-surface-variant mb-2">
 										Minimum Balance Threshold
 									</label>
 									<input
+										id="balance-threshold"
 										type="number"
+										aria-label="Minimum balance threshold for alerts"
+										aria-describedby="threshold-hint"
 										value={balanceThreshold}
 										onChange={handleBalanceThresholdChange}
-										className="w-full bg-surface-container border border-outline-variant rounded-lg px-4 py-2 text-on-surface focus:ring-1 focus:ring-primary/40 transition-colors"
+										className="w-full bg-surface-container border border-outline-variant rounded-lg px-4 py-2 text-on-surface focus:ring-1 focus:ring-primary/40 focus:outline-none transition-colors"
 										placeholder="Enter threshold amount"
 										min="0"
 										step="1000"
 										disabled={loading}
 									/>
-									<p className="text-xs text-on-surface-variant/60 mt-1">
+									<p id="threshold-hint" className="text-xs text-on-surface-variant/60 mt-1">
 										You'll receive an alert when your balance falls below this amount
 									</p>
 								</div>
