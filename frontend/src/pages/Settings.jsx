@@ -44,15 +44,10 @@ export default function Settings() {
 		setMessage({ type: '', text: '' })
 
 		try {
-			const response = await api.put('/auth/settings', {
-				balanceThreshold: newThreshold,
-			})
-
-			if (response.data.success) {
-				setMessage({ type: 'success', text: 'Balance threshold updated successfully!' })
-			}
+			// TODO: Implement backend endpoint: PUT /api/auth/settings
+			setMessage({ type: 'info', text: 'Settings saved locally - backend synchronization coming soon' })
 		} catch (error) {
-			setMessage({ type: 'error', text: error.response?.data?.message || 'Failed to update settings' })
+			setMessage({ type: 'error', text: 'Failed to update settings' })
 		} finally {
 			setLoading(false)
 		}
@@ -64,14 +59,14 @@ export default function Settings() {
 		setMessage({ type: '', text: '' })
 
 		try {
-			const response = await api.put('/auth/profile', {
-				name: profileForm.name,
-				email: profileForm.email,
-			})
-			
-			if (response.data.success) {
-				setMessage({ type: 'success', text: 'Profile updated successfully!' })
-			}
+			// TODO: Implement backend endpoint: PUT /api/auth/profile
+			setMessage({ type: 'info', text: 'Profile update feature coming soon - backend endpoint not yet implemented' })
+		} catch (error) {
+			setMessage({ type: 'error', text: 'Failed to update profile' })
+		} finally {
+			setLoading(false)
+		}
+	}
 		} catch (error) {
 			setMessage({ type: 'error', text: error.response?.data?.message || 'Failed to update profile' })
 		} finally {
@@ -97,17 +92,11 @@ export default function Settings() {
 		}
 
 		try {
-			const response = await api.put('/auth/password', {
-				currentPassword: passwordForm.currentPassword,
-				newPassword: passwordForm.newPassword,
-			})
-
-			if (response.data.success) {
-				setMessage({ type: 'success', text: 'Password changed successfully!' })
-				setPasswordForm({ currentPassword: '', newPassword: '', confirmPassword: '' })
-			}
+			// TODO: Implement backend endpoint: PUT /api/auth/password
+			setMessage({ type: 'info', text: 'Password change feature coming soon - backend endpoint not yet implemented' })
+			setPasswordForm({ currentPassword: '', newPassword: '', confirmPassword: '' })
 		} catch (error) {
-			setMessage({ type: 'error', text: error.response?.data?.message || 'Failed to change password' })
+			setMessage({ type: 'error', text: 'Failed to change password' })
 		} finally {
 			setLoading(false)
 		}
