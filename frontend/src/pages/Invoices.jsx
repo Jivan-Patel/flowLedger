@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { invoiceService } from '../services/invoiceService'
 import { formatCurrency, formatDate } from '../utils/format'
+import SEO from '../components/SEO'
 
 const statusColors = {
 	paid: { bg: 'bg-secondary-container/30', text: 'text-on-secondary-container' },
@@ -49,6 +50,10 @@ export default function Invoices() {
 
 	return (
 		<div className="space-y-8 animate-fade-in">
+			<SEO
+				title="Invoices"
+				description="View, create, and manage all your invoices. Filter by status, search by client, and track payments."
+			/>
 			{/* Header */}
 			<div className="flex justify-between items-end">
 				<div>
