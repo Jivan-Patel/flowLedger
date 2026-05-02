@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import { invoiceService } from '../services/invoiceService'
 import { formatCurrency, formatDate } from '../utils/format'
+import { generateWhatsAppLink } from '../utils/whatsapp'
 import html2pdf from 'html2pdf.js'
 import InvoicePDF from '../components/InvoicePDF'
 
@@ -45,6 +46,16 @@ export default function InvoiceDetail() {
     }
   }
 
+  const handleWhatsApp = () => {
+    if (!invoice.client.phoneNumber) {
+      alert("Client phone number is missing. Please edit the invoice to add it.")
+      return
+    }
+    const text = `Hi ${invoice.client.name}, this is a reminder that your invoice of ₹${invoice.total}, due on ${formatDate(invoice.dueDate)}, is pending. Kindly complete the payment. Thank you.`
+    const url = generateWhatsAppLink(invoice.client.phoneNumber, text)
+    window.open(url, '_blank')
+  }
+
   const handleDownloadPDF = () => {
     const element = document.getElementById('invoice-pdf-container')
     const opt = {
@@ -80,8 +91,11 @@ export default function InvoiceDetail() {
           </div>
         </div>
         <div className="flex items-center gap-3">
-
-
+          {(invoice.status === 'pending' || invoice.status === 'overdue') && (
+            <button onClick={handleWhatsApp} className="flex items-center gap-2 px-5 py-2.5 bg-green-500 text-white font-bold text-sm rounded-lg hover:bg-green-600 transition-all shadow-lg shadow-green-500/20">
+              <span className="material-symbols-outlined text-lg">chat</span> Send Reminder
+            </button>
+          )}
           <button onClick={handleDownloadPDF} className="flex items-center gap-2 px-5 py-2.5 bg-primary text-on-primary font-bold text-sm rounded-lg hover:bg-primary/90 transition-all shadow-lg shadow-primary/20">
             <span className="material-symbols-outlined text-lg">download</span> Download PDF
           </button>
