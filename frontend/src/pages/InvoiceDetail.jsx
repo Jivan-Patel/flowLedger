@@ -3,6 +3,8 @@ import { useParams, useNavigate, Link } from 'react-router-dom'
 import { invoiceService } from '../services/invoiceService'
 import { formatCurrency, formatDate } from '../utils/format'
 import { generateWhatsAppLink } from '../utils/whatsapp'
+import html2pdf from 'html2pdf.js'
+import InvoicePDF from '../components/InvoicePDF'
 
 const statusConfig = {
   paid: { bg: 'bg-green-500/10', text: 'text-green-400', border: 'border-green-500/20', icon: 'check_circle' },
@@ -54,6 +56,38 @@ export default function InvoiceDetail() {
     window.open(url, '_blank')
   }
 
+  const handleShare = () => {
+    if (!invoice.client.phoneNumber) {
+      alert("Client phone number is missing. Please edit the invoice to add it.")
+      return
+    }
+    const text = `Hi ${invoice.client.name}, here is your invoice of ₹${invoice.total}.`
+    const url = generateWhatsAppLink(invoice.client.phoneNumber, text)
+    window.open(url, '_blank')
+  }
+
+  const handleDownloadPDF = () => {
+    const element = document.getElementById('invoice-pdf-container')
+    const opt = {
+      margin: 0,
+      filename: `Invoice_${invoice.invoiceNumber}.pdf`,
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { 
+        scale: 2,
+        onclone: (clonedDoc) => {
+          // html2canvas bundled in html2pdf.js crashes on modern CSS functions like oklch and color-mix
+          // We must safely strip any rule containing these functions before it parses them!
+          const styles = clonedDoc.querySelectorAll('style');
+          styles.forEach(style => {
+            style.innerHTML = style.innerHTML.replace(/:[^:;}]*(oklch|color-mix)[^;}]*/g, ': transparent');
+          });
+        }
+      },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    }
+    html2pdf().set(opt).from(element).save()
+  }
+
   return (
     <div className="max-w-5xl mx-auto space-y-8 animate-fade-in">
       <div className="flex items-center justify-between flex-wrap gap-4">
@@ -72,6 +106,12 @@ export default function InvoiceDetail() {
               <span className="material-symbols-outlined text-lg">chat</span> Send Reminder
             </button>
           )}
+          <button onClick={handleShare} className="flex items-center gap-2 px-5 py-2.5 bg-surface-high text-on-surface-variant font-bold text-sm rounded-lg border border-outline-variant/20 hover:bg-surface-bright transition-all">
+            <span className="material-symbols-outlined text-lg">share</span> Share
+          </button>
+          <button onClick={handleDownloadPDF} className="flex items-center gap-2 px-5 py-2.5 bg-primary text-on-primary font-bold text-sm rounded-lg hover:bg-primary/90 transition-all shadow-lg shadow-primary/20">
+            <span className="material-symbols-outlined text-lg">download</span> Download PDF
+          </button>
           {invoice.status !== 'paid' && (
             <button onClick={handleMarkPaid} className="flex items-center gap-2 px-5 py-2.5 bg-green-500/10 text-green-400 font-bold text-sm rounded-lg border border-green-500/20 hover:bg-green-500/20 transition-all">
               <span className="material-symbols-outlined text-lg">check_circle</span> Mark as Paid
@@ -151,6 +191,13 @@ export default function InvoiceDetail() {
               <div className="flex justify-between items-center"><span className="text-lg font-bold">Total</span><span className="text-2xl font-extrabold tracking-tighter text-primary">{formatCurrency(invoice.total)}</span></div>
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* Hidden PDF Printable Area */}
+      <div className="fixed top-0" style={{ left: '-9999px' }}>
+        <div id="invoice-pdf-container">
+          <InvoicePDF invoice={invoice} />
         </div>
       </div>
     </div>
