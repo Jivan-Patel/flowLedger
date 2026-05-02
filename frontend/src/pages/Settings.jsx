@@ -24,6 +24,9 @@ export default function Settings() {
 		confirmPassword: '',
 	})
 
+	// Balance threshold state
+	const [balanceThreshold, setBalanceThreshold] = useState(user?.settings?.balanceThreshold || 10000)
+
 	const handleProfileChange = (e) => {
 		const { name, value } = e.target
 		setProfileForm(prev => ({ ...prev, [name]: value }))
@@ -32,6 +35,27 @@ export default function Settings() {
 	const handlePasswordChange = (e) => {
 		const { name, value } = e.target
 		setPasswordForm(prev => ({ ...prev, [name]: value }))
+	}
+
+	const handleBalanceThresholdChange = async (e) => {
+		const newThreshold = parseFloat(e.target.value) || 0
+		setBalanceThreshold(newThreshold)
+		setLoading(true)
+		setMessage({ type: '', text: '' })
+
+		try {
+			const response = await api.put('/auth/settings', {
+				balanceThreshold: newThreshold,
+			})
+
+			if (response.data.success) {
+				setMessage({ type: 'success', text: 'Balance threshold updated successfully!' })
+			}
+		} catch (error) {
+			setMessage({ type: 'error', text: error.response?.data?.message || 'Failed to update settings' })
+		} finally {
+			setLoading(false)
+		}
 	}
 
 	const handleProfileSubmit = async (e) => {
@@ -317,7 +341,31 @@ export default function Settings() {
 								</button>
 							</div>
 						</div>
-					</div>
+
+						{/* Balance Settings */}
+						<div>
+							<h3 className="text-lg font-bold text-on-surface mb-4">Alert Settings</h3>
+							<div className="space-y-3">
+								<div>
+									<label className="block text-sm font-medium text-on-surface-variant mb-2">
+										Minimum Balance Threshold
+									</label>
+									<input
+										type="number"
+										value={balanceThreshold}
+										onChange={handleBalanceThresholdChange}
+										className="w-full bg-surface-container border border-outline-variant rounded-lg px-4 py-2 text-on-surface focus:ring-1 focus:ring-primary/40 transition-colors"
+										placeholder="Enter threshold amount"
+										min="0"
+										step="1000"
+										disabled={loading}
+									/>
+									<p className="text-xs text-on-surface-variant/60 mt-1">
+										You'll receive an alert when your balance falls below this amount
+									</p>
+								</div>
+							</div>
+						</div>
 				</div>
 			)}
 
