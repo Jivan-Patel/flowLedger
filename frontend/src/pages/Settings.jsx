@@ -317,46 +317,6 @@ export default function Settings() {
 								</button>
 							</div>
 						</div>
-
-						<div className="pt-4 border-t border-outline-variant/10">
-							<h3 className="text-lg font-bold text-on-surface mb-4">Notifications</h3>
-							<div className="space-y-3">
-								<label className="flex items-center gap-3 p-3 rounded-lg hover:bg-surface-highest/50 cursor-pointer transition-colors">
-									<input
-										type="checkbox"
-										defaultChecked
-										className="w-4 h-4 rounded border-outline-variant"
-									/>
-									<div>
-										<p className="text-sm font-medium text-on-surface">Email Reminders</p>
-										<p className="text-xs text-on-surface-variant">Get notified about pending invoices</p>
-									</div>
-								</label>
-
-								<label className="flex items-center gap-3 p-3 rounded-lg hover:bg-surface-highest/50 cursor-pointer transition-colors">
-									<input
-										type="checkbox"
-										defaultChecked
-										className="w-4 h-4 rounded border-outline-variant"
-									/>
-									<div>
-										<p className="text-sm font-medium text-on-surface">Payment Updates</p>
-										<p className="text-xs text-on-surface-variant">Notify when payments are received</p>
-									</div>
-								</label>
-
-								<label className="flex items-center gap-3 p-3 rounded-lg hover:bg-surface-highest/50 cursor-pointer transition-colors">
-									<input
-										type="checkbox"
-										className="w-4 h-4 rounded border-outline-variant"
-									/>
-									<div>
-										<p className="text-sm font-medium text-on-surface">Weekly Reports</p>
-										<p className="text-xs text-on-surface-variant">Receive weekly cash flow summary</p>
-									</div>
-								</label>
-							</div>
-						</div>
 					</div>
 				</div>
 			)}
