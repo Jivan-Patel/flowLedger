@@ -53,39 +53,48 @@ export default function Login() {
           <p className="text-on-surface-variant">Sign in to your account</p>
         </div>
 
-        <form onSubmit={formik.handleSubmit} className="space-y-4">
+        <form onSubmit={formik.handleSubmit} className="space-y-4" noValidate>
           <div>
-            <label className="block text-sm font-medium text-on-surface-variant mb-1">Email</label>
+            <label htmlFor="email" className="block text-sm font-medium text-on-surface-variant mb-1">Email <span aria-label="required">*</span></label>
             <input
+              id="email"
               type="email"
+              aria-required="true"
+              aria-invalid={formik.touched.email && formik.errors.email ? 'true' : 'false'}
+              aria-describedby={formik.touched.email && formik.errors.email ? 'email-error' : undefined}
               {...formik.getFieldProps('email')}
-              className={`w-full bg-surface-container border rounded-lg px-4 py-2 text-on-surface focus:border-primary transition-colors ${
+              className={`w-full bg-surface-container border rounded-lg px-4 py-2 text-on-surface focus:border-primary transition-colors focus:outline-none ${
                 formik.touched.email && formik.errors.email ? 'border-error' : 'border-outline-variant'
               }`}
             />
             {formik.touched.email && formik.errors.email && (
-              <p className="text-error text-xs mt-1">{formik.errors.email}</p>
+              <p id="email-error" className="text-error text-xs mt-1" role="alert" aria-live="polite">{formik.errors.email}</p>
             )}
           </div>
           
           <div>
-            <label className="block text-sm font-medium text-on-surface-variant mb-1">Password</label>
+            <label htmlFor="password" className="block text-sm font-medium text-on-surface-variant mb-1">Password <span aria-label="required">*</span></label>
             <input
+              id="password"
               type="password"
+              aria-required="true"
+              aria-invalid={formik.touched.password && formik.errors.password ? 'true' : 'false'}
+              aria-describedby={formik.touched.password && formik.errors.password ? 'password-error' : undefined}
               {...formik.getFieldProps('password')}
-              className={`w-full bg-surface-container border rounded-lg px-4 py-2 text-on-surface focus:border-primary transition-colors ${
+              className={`w-full bg-surface-container border rounded-lg px-4 py-2 text-on-surface focus:border-primary transition-colors focus:outline-none ${
                 formik.touched.password && formik.errors.password ? 'border-error' : 'border-outline-variant'
               }`}
             />
             {formik.touched.password && formik.errors.password && (
-              <p className="text-error text-xs mt-1">{formik.errors.password}</p>
+              <p id="password-error" className="text-error text-xs mt-1" role="alert" aria-live="polite">{formik.errors.password}</p>
             )}
           </div>
 
           <button
             type="submit"
             disabled={formik.isSubmitting}
-            className="w-full bg-primary-container text-on-primary-container rounded-lg py-2 font-medium hover:bg-primary-container/90 transition-colors disabled:opacity-50"
+            aria-busy={formik.isSubmitting}
+            className="w-full bg-primary-container text-on-primary-container rounded-lg py-2 font-medium hover:bg-primary-container/90 transition-colors disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
           >
             {formik.isSubmitting ? 'Signing in...' : 'Sign In'}
           </button>
