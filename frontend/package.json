@@ -11,12 +11,14 @@
   },
   "dependencies": {
     "axios": "^1.15.2",
+    "formik": "^2.4.9",
     "html2pdf.js": "^0.14.0",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
     "react-helmet-async": "^3.0.0",
     "react-router-dom": "^7.9.5",
-    "recharts": "^3.8.1"
+    "recharts": "^3.8.1",
+    "yup": "^1.7.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.4",
