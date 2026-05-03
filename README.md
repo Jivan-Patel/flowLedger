@@ -4,19 +4,18 @@
 
 ---
 
-## 🎨 Design & Prototype
+## 🎨 Links & Resources
 
-### 🖌️ Figma Design
-- **Main Design File:**  
-  [Figma Link](https://www.figma.com/design/Ho30ZcdHoE8SvLJacxifQa/Untitled?node-id=1003-2&t=vEP967IerTZBUgjO-1)
+### Design & Prototype
+- **Design File:** [Figma Design](https://www.figma.com/design/Ho30ZcdHoE8SvLJacxifQa/Untitled?node-id=1003-2&t=vEP967IerTZBUgjO-1)
+- **Interactive Prototype (Light Mode):** [Figma Prototype Light](https://www.figma.com/proto/Ho30ZcdHoE8SvLJacxifQa/Untitled?node-id=1003-1139&p=f&viewport=343%2C255%2C0.06&t=tZCmTT4ynHq1XqVq-0&scaling=min-zoom&content-scaling=fixed&starting-point-node-id=1003%3A1139&show-proto-sidebar=1)
+- **Interactive Prototype (Dark Mode):** [Figma Prototype Dark](https://www.figma.com/proto/Ho30ZcdHoE8SvLJacxifQa/Untitled?node-id=1003-2&p=f&viewport=269%2C261%2C0.06&t=tZCmTT4ynHq1XqVq-0&scaling=min-zoom&content-scaling=fixed&starting-point-node-id=1017%3A2&show-proto-sidebar=1)
 
-### 🌞 Light Theme Prototype
-- **Interactive Prototype (Light Mode):**  
-  [Figma Prototype Light](https://www.figma.com/proto/Ho30ZcdHoE8SvLJacxifQa/Untitled?node-id=1003-1139&p=f&viewport=343%2C255%2C0.06&t=tZCmTT4ynHq1XqVq-0&scaling=min-zoom&content-scaling=fixed&starting-point-node-id=1003%3A1139&show-proto-sidebar=1)
-
-### 🌙 Dark Theme Prototype
-- **Interactive Prototype (Dark Mode):**  
-  [Figma Prototype Dark](https://www.figma.com/proto/Ho30ZcdHoE8SvLJacxifQa/Untitled?node-id=1003-2&p=f&viewport=269%2C261%2C0.06&t=tZCmTT4ynHq1XqVq-0&scaling=min-zoom&content-scaling=fixed&starting-point-node-id=1017%3A2&show-proto-sidebar=1)
+### Live Links & API Documentation
+- **Live Application:** [https://flow-ledger-alpha.vercel.app/](https://flow-ledger-alpha.vercel.app/)
+- **Backend Server:** [https://flowledger-backend-2yxh.onrender.com/](https://flowledger-backend-2yxh.onrender.com/)
+- **Postman API Docs:** [View API Documentation](https://documenter.getpostman.com/view/50840833/2sBXqKofgz)
+- **YouTube Demo:** [Watch Demo](https://youtu.be/DN1nKqy5VRI?si=cAcajfkswwy3c-eZ)
 
 ---
 
@@ -72,25 +71,31 @@ Micro and small businesses often rely on spreadsheets or paper records to manage
 flowledger/
 ├── frontend/                         # React Frontend
 │   ├── public/
-│   └── src/
-│       ├── components/             # Reusable UI components
-│       ├── pages/                  # Route-level pages (Dashboard, Invoices, CashFlow, etc.)
-│       ├── services/               # API call wrappers (api.js, invoiceService.js, etc.)
-│       ├── context/                # Global state management
-│       ├── App.jsx
-│       └── main.jsx
-│
+│   ├── src/
+│   │   ├── components/               # Reusable UI components
+│   │   │   ├── Layout/                # Layout components (Sidebar, TopNav)
+│   │   │   └── (other UI components)
+│   │   ├── pages/                    # Route-level pages (Dashboard, Invoices, CashFlow, etc.)
+│   │   ├── services/                 # API call wrappers (api.js, invoiceService.js, etc.)
+│   │   ├── context/                  # Global state management (AuthContext, ThemeContext)
+│   │   ├── utils/                    # Frontend utilities (format.js, whatsapp.js)
+│   │   ├── App.jsx
+│   │   └── main.jsx
+│   ├── package.json
+│   ├── vite.config.js
+│   └── eslint.config.js
+
 ├── backend/                         # Express Backend
-│   ├── config/                     # Database configuration
-│   ├── controllers/                # Business logic for routes
-│   ├── models/                     # Mongoose schemas
-│   ├── routes/                     # API endpoint definitions
-│   ├── middleware/                 # Auth and error handling
-│   └── index.js                    # Entry point
-│
-├── .gitignore
-├── README.md
-└── package.json
+│   ├── config/                       # Database configuration (db.js)
+│   ├── controllers/                  # Business logic for routes (authController, invoiceController, ...)
+│   ├── models/                       # Mongoose schemas (User, Invoice, Transaction, etc.)
+│   ├── routes/                       # API endpoint definitions (authRoutes, invoiceRoutes, ...)
+│   ├── middleware/                   # Auth and error handling (authMiddleware)
+│   ├── utils/                        # Backend helpers (dateHelpers.js)
+│   ├── index.js                      # Entry point
+│   └── package.json
+|
+└── README.md
 ```
 
 ---
