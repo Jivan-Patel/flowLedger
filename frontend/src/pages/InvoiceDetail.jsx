@@ -50,9 +50,9 @@ export default function InvoiceDetail() {
     }
   }
 
-  constoast.errordleWhatsApp = () => {
-    if (!invoice.client.phoneNumber) {
-      alert("Client phone number is missing. Please edit the invoice to add it.")
+  const handleWhatsApp = () => {
+    if (!invoice?.client?.phoneNumber) {
+      alert('Client phone number is missing. Please edit the invoice to add it.')
       return
     }
     const text = `Hi ${invoice.client.name}, this is a reminder that your invoice of ₹${invoice.total}, due on ${formatDate(invoice.dueDate)}, is pending. Kindly complete the payment. Thank you.`
