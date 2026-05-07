@@ -65,6 +65,63 @@ Micro and small businesses often rely on spreadsheets or paper records to manage
 
 ---
 
+## 🖼 Screenshots
+
+<table>
+  <tr>
+    <td align="center">
+      <b>Dashboard</b><br/>
+      <img src="frontend/public/screenshot/Dashboard.png" width="400"/>
+    </td>
+    <td align="center">
+      <b>Cash Flow</b><br/>
+      <img src="frontend/public/screenshot/cashFlow.png" width="400"/>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="center">
+      <b>Clients</b><br/>
+      <img src="frontend/public/screenshot/clients.png" width="400"/>
+    </td>
+    <td align="center">
+      <b>Create Invoice</b><br/>
+      <img src="frontend/public/screenshot/CreateInvoice.png" width="400"/>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="center">
+      <b>View Invoices</b><br/>
+      <img src="frontend/public/screenshot/ViewInvoices.png" width="400"/>
+    </td>
+    <td align="center">
+      <b>Invoice</b><br/>
+      <img src="frontend/public/screenshot/invoice.png" width="400"/>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="center">
+      <b>Invoice PDF</b><br/>
+      <img src="frontend/public/screenshot/invoicePDF.png" width="400"/>
+    </td>
+    <td align="center">
+      <b>Payments</b><br/>
+      <img src="frontend/public/screenshot/payments.png" width="400"/>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="center">
+      <b>Recurring</b><br/>
+      <img src="frontend/public/screenshot/recurring.png" width="400"/>
+    </td>
+  </tr>
+</table>
+
+---
+
 ## 🗂 Folder Structure
 
 ```
